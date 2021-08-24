@@ -2,9 +2,14 @@
 
 리액트를 A to Z 해석하고 배워서 뿌셔봅시다!:mag_right:
 
-<!-- START doctoc -->
-<!-- ref: https://github.com/technote-space/toc-generator -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Contents](#contents)
+- [Reference](#reference)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 <hr>
 <br>
