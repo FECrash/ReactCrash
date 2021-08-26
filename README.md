@@ -2,14 +2,14 @@
 
 리액트를 A to Z 해석하고 배워서 뿌셔봅시다!:mag_right:
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+<br>
+<hr>
 
-- [Contents](#contents)
-- [Reference](#reference)
+:blue_book:TOC가 들어갈 자리입니다.
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- START doctoc -->
+<!-- ref: https://github.com/technote-space/toc-generator -->
+<!-- END doctoc -->
 
 <hr>
 <br>
@@ -30,20 +30,20 @@
       1st Week<br>
       (2021-08-23 ~ 2021-08-28)
       </td>
-      <td><a href="">리액트를 시작합니다!</a></td>
+      <td><a href="https://github.com/InSeong-So/ReactCrash/tree/main/01_Intro">리액트를 시작합니다!</a></td>
       <td rowspan="4">
         <a href="https://github.com/karohani">karohani</a><br>
         <a href="https://github.com/inseong-so">InSeong-So</a>
       </td>
     </tr>
     <tr>
-      <td><a href="">JSX</a></td>
+      <td><a href="https://github.com/InSeong-So/ReactCrash/tree/main/02_JSX">JSX</a></td>
     </tr>
     <tr>
-      <td><a href="">컴포넌트를 얕게 알아보기</a></td>
+      <td><a href="https://github.com/InSeong-So/ReactCrash/tree/main/03_Component1">컴포넌트를 얕게 알아보기</a></td>
     </tr>
     <tr>
-      <td><a href="">이벤트 핸들링</a></td>
+      <td><a href="https://github.com/InSeong-So/ReactCrash/tree/main/04_Event">이벤트 핸들링</a></td>
     </tr>
   </tbody>
 </table>
