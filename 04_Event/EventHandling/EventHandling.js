@@ -5,6 +5,19 @@ class EventHandling extends Component {
     message: ''
   }
 
+  handleChange = (event) => {
+    this.setState({
+      message: event.target.value
+    })
+  }
+
+  handleClick = () => {
+    alert(this.state.message);
+    this.setState({
+      message: '',
+    })
+  }
+
   render() {
     return (
       <div>
@@ -14,24 +27,9 @@ class EventHandling extends Component {
           name="message"
           placeholder="입력"
           value={this.state.message}
-          onChange={
-            ({ target }) => {
-              this.setState({
-                message: target.value,
-              })
-            }
-          }
+          onChange={this.handleChange}
         />
-        <button
-          onClick={
-            () => {
-              alert(this.state.message);
-              this.setState({
-                message: '',
-              })
-            }
-          }
-        >확인</button>
+        <button onClick={this.handleClick}>확인</button>
       </div>
     )
   }
