@@ -290,7 +290,63 @@ props는 컴포넌트가 사용되는 과정에서 **부모 컴포넌트가 설�
 state는 클래스형 컴포넌트가 지니고 있고, 함수형 컴포넌트는 useState를 지니고 있습니다. 각각 알아보죠.
 
 ### 클래스형 컴포넌트의 state
-> 예제 :
+> 예제 : [ClassComponent/Counter.js]()
+
+컴포넌트의 state는 constructor 메서드를 통해 설정하며, 반드시 `super(props)`를 
+호출하고 객체여야만 하며, constructor가 존재하지 않으면 class의 멤버 변수로서 선언할 수 있습니다.
+
+this.setState에는 객체 대신 함수 인자를 전달할 수 있습니다.
+```js
+this.setState((prevState, props) => ({
+  number: prevState + 1
+}));
+```
+- 화살표 함수에서 값을 반환하고 싶다면 코드 블록을 생략하고, 객체를 반환할 경우 소괄호로 감싸주면(`prevState => ({number: prevState + 1})`) 됩니다!
+
+this.setState가 끝난 뒤 특정 작업을 진행하고 싶다면 콜백으로 함수 인자를 넘겨주면 됩니다.
+```js
+this.setState({number: number + 1}, () => console.log('이렇게요!'));
+```
+
+<br>
 
 ### 함수형 컴포넌트의 state
-> 예제 :
+> 예제 : [FunctionComponent/Counter.js]()
+
+리액트 16.8 이전 버전에서는 함수형 컴포넌트에서 state를 사용할 수 없었지만, 그 이후부터는 Hooks 중 하나인 useState 함수를 사용하여 state를 사용할 수 있게 되었습니다.
+
+> useState는 배열 비구조화 할당(Destructuring) 문법으로 표현하므로 이를 알아두세요!
+
+useState 함수의 인자에는 상태의 초깃값을 넣어줍니다. 값의 형태는 자유로, useState를 호출하면 현재 상태와 상태를 바꿔주는 함수를 배열로 반환합니다. 이를 배열 비구조화 할당을 통해 자유롭게 정해줄 수 있죠.
+
+<br>
+
+## state 사용 시 주의 사항
+> state 값을 바꿔야 할 때는 setState나 useState를 통해 전달받은 setter 함수를 사용해야 합니다.
+
+객체에 대한 사본을 생성하여 그 값을 업데이트하고 사본의 상태를 setState 혹은 세터 함수를 통해 변경합니다.
+```js
+// 객체
+const ojbect = { a: 1, b: 2, c: 3 };
+const nextOjbect = { ...object, b: 4 }; // 사본을 만들어 b 값만 덮어 쓰기
+
+// 배열
+const array = [
+  { id: 1, value: true },
+  { id: 2, value: true },
+  { id: 3, value: false },
+];
+
+let nextArray = array.concat({ id: 4 });
+nextArray.filter(item => item.id !== 2);
+nextArray.map(item => (item.id === 1 ? { ...item, value: false } : item));
+```
+
+객체의 사본을 생성할 때는 spread Operator나 내장 함수를 활용합니다.
+
+<br>
+
+## 정리
+props와 state는 컴포넌트에서 사용하거나 렌더링할 데이터를 담고 있으므로 비슷해 보이지만, props는 `부모 컴포넌트가 설정`하고, state는 `컴포넌트 자체적으로 지닌 값`으로 `컴포넌트 내부에서 값을 업데이트 할 수 있습니다.
+
+props를 사용한다고 값이 무조건 고정되진 않습니다. 부모 컴포넌트의 state를 자식 컴포넌트의 props로 전달하여 자식 컴포넌트의 이벤트가 발생하면 부모 컴포넌트의 메서드를 호출해서 props를 유동적으로 사용할 수 있죠.
