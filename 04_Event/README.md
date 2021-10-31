@@ -21,5 +21,3 @@
 | `Selection` | `Transition` |               |             |
 
 <br>
-
-## 이벤트 헨들링
