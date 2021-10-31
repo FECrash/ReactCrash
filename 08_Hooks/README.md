@@ -144,3 +144,96 @@ export default Average;
 이 컴포넌트는 숫자 등록 뿐만 아니라 input 내용이 수정될 때도 getAverage 함수가 호출됩니다. input 내용이 바뀔 때는 평균값을 다시 계산할 필요가 없는데 이렇게 렌더링할 때마다 계산하는 것은 낭비죠. useMemo Hook을 사용하면 이런 작업을 최적화할 수 있습니다.
 
 렌더링하는 과정에서 특정 값이 바뀌었을 때만 연산을 실행하고 원하는 값이 바뀌지 않았다면 이전에 연산한 결과를 다시 사용하는 방식이죠.
+
+```js
+import React, { useMemo, useState } from 'react';
+
+const getAverage = numbers => {
+  console.log('평균값 계산!');
+  if (numbers.length === 0) return 0;
+  const sum = numbers.reduce((a, b) => a + b);
+  return sum / numbers.length;
+}
+
+const Average = () => {
+  const [list, setList] = useState([]);
+  const [number, setNumber] = useState('');
+  const onChange = ({ target }) => setNumber(target.value);
+  const onInsert = () => {
+    const nextList = list.concat(parseInt(number));
+    setList(nextList);
+    setNumber('');
+  }
+
+  const avg = useMemo(() => getAverage(list), [list]);
+
+  return (
+    <div>
+      <input value={number} onChange={onChange} />
+      <button onClick={onInsert}>등록</button>
+      <ul>
+        {list.map((value, index) => (
+          <li key={index}>{value}</li>
+        ))}
+      </ul>
+      <div>
+        <b>평균값:</b> {avg}
+      </div>
+    </div>
+  )
+}
+
+export default Average;
+```
+
+<br>
+
+## useCallback
+> useMemo와 비슷하지만 기존에 만들어놓은 함수를 재사용할 수 있습니다. 주로 렌더링 성능을 최적화할 때 사용하죠.
+
+컴포넌트 내부에 선언한 함수들은 컴포넌트가 리렌더링 될 때마다 새로 만들어진 함수가 되며 이를 사용하는 형태입니다. 대부분 문제가 없지만 컴포넌트의 렌더링이 잦거나 렌더링해야 할 컴포넌트의 개수가 많아지면 이 부분을 최적화해야 합니다.
+
+useCallback의 첫 파라미터는 생성하고 싶은 함수, 두 번째 파라미터에는 배열을 넣습니다. 이 배열에는 `어떤 값이 바뀌었을 때 함수를 새로 생성할지` 명시합니다. 비어 있는 배열은 `컴포넌트가 렌더링될 때 만들었던 함수를 계속 재사용`하게 되며, 특정 식별자를 넣으면 해당 이벤트가 발생하거나 렌더링 될 때 새로 만들어진 함수를 사용합니다.
+
+함수 내부에서 상태에 의존해야 할 때는 그 값을 반드시 두 번째 파라미터 안에 포함시켜야 합니다.
+
+<br>
+
+## useRef
+> useRef Hook은 함수형 컴포넌트에서 ref를 쉽게 사용할 수 있도록 합니다.
+
+useRef를 사용하여 ref를 설정하면 useRef를 통해 만든 객체 안의 current 값이 실제 엘리먼트를 가리킵니다.
+
+### 로컬 변수 사용하기
+> 컴포넌트 로컬 변수를 사용해야 할 때도 useRef를 활용할 수 있습니다.
+
+로컬 변수란 렌더링과 상관없이 바뀔 수 있는 값으로, 클래스 형태로 작성된 컴포넌트의 경우 클래스 멤버 변수나 this를 통해 작성할 수 있습니다.
+```js
+import React from 'react';
+
+class RefClass extends Component {
+  id = 1;
+  setId = (n) => {
+    this.id = n;
+  }
+  //...
+}
+```
+
+이를 함수형 컴포넌트로 작성한다면 아래와 같습니다.
+```js
+import React from 'react';
+
+const RefFunction = () => {
+  const id = useRef(1);
+  const setId = (n) => {
+    id.current = n;
+  }
+  //...
+}
+```
+
+이렇게 ref 안의 값이 바뀌면 컴포넌트는 다시 렌더링되지 않으니 주의하세요. 렌더링과 관련되지 않은 값을 관리할 때만 이렇게 짜야 합니다.
+
+<br>
+
