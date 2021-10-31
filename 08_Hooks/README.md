@@ -237,3 +237,42 @@ const RefFunction = () => {
 
 <br>
 
+## 커스텀 Hooks 만들기
+> 여러 컴포넌트에서 비슷한 기능을 공유한다면 커스텀 Hooks 작성하여 로직을 재사용할 수 있습니다.
+
+```js
+import { useReducer } from 'react';
+
+const reducer = (state, action) => {
+  return {
+    ...state,
+    [action.name]: action.value
+  };
+}
+
+const useInputs = (initialForm) => {
+  const [state, dispatch] = useReducer(reducer, initialForm);
+  const onChange = ({ target }) => {
+    dispatch(target);
+  }
+  return [state, onChange];
+}
+
+export default useInputs
+```
+
+이 Hook은 이렇게 사용할 수 있습니다.
+
+```js
+import useInputs from './useInputs';
+
+const Info = () => {
+  const [state, onChange] = useInputs({
+    name: '',
+    nickname: ''
+  });
+  const {name, nickname} = state;
+}
+```
+
+<br>
