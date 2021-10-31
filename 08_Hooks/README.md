@@ -96,3 +96,51 @@ export default Counter;
 ```
 
 useReducer를 사용했을 때의 가장 큰 장점은 컴포넌트 업데이트 로직을 컴포넌트 바깥으로 분리할 수 있다는 것입니다.
+
+<br>
+
+## useMemo
+> 함수형 컴포넌트 내부에서 발생하는 연산을 최적화할 수 있습니다.
+
+```js
+import React, { useState } from 'react';
+
+const getAverage = numbers => {
+  console.log('평균값 계산!');
+  if (numbers.length === 0) return 0;
+  const sum = numbers.reduce((a, b) => a + b);
+  return sum / numbers.length;
+}
+
+const Average = () => {
+  const [list, setList] = useState([]);
+  const [number, setNumber] = useState('');
+  const onChange = ({ target }) => setNumber(target.value);
+  const onInsert = () => {
+    const nextList = list.concat(parseInt(number));
+    setList(nextList);
+    setNumber('');
+  }
+
+  return (
+    <div>
+      <input value={number} onChange={onChange} />
+      <button onClick={onInsert}>등록</button>
+      <ul>
+        {list.map((value, index) => (
+          <li key={index}>{value}</li>
+        ))}
+      </ul>
+      <div>
+        <b>평균값:</b> {getAverage(list)}
+      </div>
+    </div>
+  )
+}
+
+export default Average;
+```
+
+이 컴포넌트는 숫자 등록 뿐만 아니라 input 내용이 수정될 때도 getAverage 함수가 호출됩니다. input 내용이 바뀔 때는 평균값을 다시 계산할 필요가 없는데 이렇게 렌더링할 때마다 계산하는 것은 낭비죠. useMemo Hook을 사용하면 이런 작업을 최적화할 수 있습니다.
+
+렌더링하는 과정에서 특정 값이 바뀌었을 때만 연산을 실행하고 원하는 값이 바뀌지 않았다면 이전에 연산한 결과를 다시 사용하는 방식이죠.
