@@ -290,7 +290,22 @@ props는 컴포넌트가 사용되는 과정에서 **부모 컴포넌트가 설�
 state는 클래스형 컴포넌트가 지니고 있고, 함수형 컴포넌트는 useState를 지니고 있습니다. 각각 알아보죠.
 
 ### 클래스형 컴포넌트의 state
-> 예제 :
+> 예제 : [ClassComponent/Counter.js]()
 
-### 함수형 컴포넌트의 state
-> 예제 :
+컴포넌트의 state는 constructor 메서드를 통해 설정하며, 반드시 `super(props)`를 
+호출하고 객체여야만 하며, constructor가 존재하지 않으면 class의 멤버 변수로서 선언할 수 있습니다.
+
+this.setState에는 객체 대신 함수 인자를 전달할 수 있습니다.
+```js
+this.setState((prevState, props) => ({
+  number: prevState + 1
+}));
+```
+- 화살표 함수에서 값을 반환하고 싶다면 코드 블록을 생략하고, 객체를 반환할 경우 소괄호로 감싸주면(`prevState => ({number: prevState + 1})`) 됩니다!
+
+this.setState가 끝난 뒤 특정 작업을 진행하고 싶다면 콜백으로 함수 인자를 넘겨주면 됩니다.
+```js
+this.setState({number: number + 1}, () => console.log('이렇게요!'));
+```
+
+<br>
