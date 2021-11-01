@@ -1,0 +1,20 @@
+/* 고유한 값으로 자동 변환되므로 아무 단어나 클래스 이름으로 설정해도 됩니다. */
+
+.wrapper {
+  background: black;
+  padding:1rem;
+  color:white;
+  font-size: 2rem;
+}
+
+.inverted {
+  color: black;
+  background: white;
+  border: 1px solid black;
+}
+
+/* 글로벌 CSS 작성 시 */
+:global .something {
+  font-weight: 800;
+  color: aqua;
+}

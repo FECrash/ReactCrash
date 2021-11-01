@@ -1,10 +1,14 @@
 import React from 'react';
-import SassComponent from './SassComponent';
+// import SassComponent from './SassComponent';
+// import CSSModule from './CSSModule';
+import StyledComponents from './StyledComponents';
 
 const App = () => {
   return (
     <div>
-      <SassComponent />
+      {/* <SassComponent /> */}
+      {/* <CSSModule /> */}
+      <StyledComponents />
     </div>
   )
 }
