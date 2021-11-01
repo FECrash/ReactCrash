@@ -323,3 +323,117 @@ import styles from  './CSSModule.module.scss';
 ```
 
 <br>
+
+## styled-components
+> 자바스크립트 파일 안에 스타일을 선언하는 `CSS-in-JS` 방식의 대표적인 라이브러리입니다.
+
+```sh
+npm i styled-components
+```
+
+<br>
+
+### Tagged 템플릿 리터럴
+> <code>`</code>를 사용하여 만드는 문법을 Tagged 템플릿 리터럴이라고 부릅니다.
+
+템플릿에 객체를 넣거나 함수를 넣으면 형태를 잃어버리고 문자열로 출력됩니다.
+
+```js
+`hello ${{foo: 'bar'}} ${() => 'world'}}!`
+// hello [object Object] () => 'world'!
+```
+
+Tagged 템플릿 리터럴을 사용하면 템플릿 사이에 들어가는 자바스크립트 객체나 함수의 원본 값을 그대로 추출할 수 있습니다. styled-components는 이런 속성으로 컴포넌트의 props를 스타일 쪽에서 쉽게 조회할 수 있도록 해주죠.
+
+```js
+function tagged(...args){
+  console.log(args);
+}
+
+tagged`hello ${{foo: 'bar'}} ${() => 'world'}}!`
+```
+
+<br>
+
+### 스타일링된 엘리먼트 만들기
+> 사용해야할 태그명이 유동적이거나 특정 컴포넌트 자체에 스타일링을 하고 싶다면 이 방법을 써주세요.
+
+```js
+const MyInput = styled('input')`
+  background: gray;
+`;
+
+const StyledLink = styled(Link)`
+  color: blue;
+`
+```
+
+컴포넌튼를 styled의 파라미터로 넣는 경우 해당 컴포넌트에 className props를 최상위 DOM의 className 값으로 설정하는 작업이 내부적으로 되어 있어야 합니다. 아래처럼요.
+```js
+const Test = ({className}) => {
+  return <div className={className}>TEST</div>;
+}
+
+const StyledTest = styled(Test)`
+  font-size: 2rem;
+`;
+```
+
+<br>
+
+### 반응형 디자인
+> 일반 CSS처럼 media 쿼리를 사용합니다.
+
+```js
+import React from 'react';
+import styled, { css } from 'styled-components';
+
+const Box = styled.div`
+  /* props로 넣어준 값을 직접 전달할 수 있습니다. */
+  background: ${props => props.color || 'blue'};
+  padding: 1rem;
+  display: flex;
+  width: 1024px;
+  margin: 0 auto;
+  @media (max-width: 1024px){
+    width: 768px;
+  }
+  @media (max-width: 768px){
+    width:100%;
+  }
+`;
+```
+
+일반 CSS와 큰 차이가 없죠? 그런데 여러 컴포넌트에서 반복하면 조금 귀찮아질 수 있으므로 함수화하여 간편하게 사용해봅시다. 이 내용은 styled-components 메뉴얼에서 제공하는 유틸 함수입니다.
+
+```js
+import React from 'react';
+import styled, { css } from 'styled-components';
+
+const sizes = {
+  desktop: 1024,
+  tablet: 768
+};
+
+// size 객체에 따라 자동으로 media 쿼리를 만들어줍니다.
+const media = Object.keys(sizes).reduce({acc, label} => {
+  acc[label] = (...args) => css`
+    @media(max-width: ${sizes[label] / 16}em){
+      ${css(...args)};
+    }
+  `;
+
+  return acc;
+}, {});
+
+const Box = styled.div`
+  /* props로 넣어준 값을 직접 전달할 수 있습니다. */
+  background: ${props => props.color || 'blue'};
+  padding: 1rem;
+  display: flex;
+  width: 1024px;
+  margin: 0 auto;
+  ${media.desktop`width: 768px;`};
+  ${media.tablet`width: 100%;`};
+`;
+```
