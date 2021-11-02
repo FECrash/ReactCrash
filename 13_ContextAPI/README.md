@@ -221,3 +221,92 @@ context로서 원시 값이 아닌 객체를 전달할 수 있습니다.
   ```
 
 <br>
+
+## Consumer 대신 Hook/static contextType 사용하기
+### useContext Hook 사용하기
+> 함수형 컴포넌트에서 Context를 편하게 사용할 수 있습니다.
+
+- ColorBox.js
+  ```js
+  import React, { useContext } from 'react'
+  import ColorContext from '../contexts/color'
+
+  const ColorBox = () => {
+    const { state } = useContext(ColorContext);
+    return (
+      <>
+        <div
+          style={{
+            width: '64px',
+            height: '64px',
+            background: state.color
+          }}
+        />
+        <div
+          style={{
+            width: '32px',
+            height: '32px',
+            background: state.subcolor
+          }}
+        />
+      </>
+    )
+  }
+
+  export default ColorBox
+  ```
+
+훨씬 간결해진 것을 확인할 수 있습니다. Render Props 패턴이 불편하다면 useContext Hook으로 쉽고 편하게 Context 값을 조회할 수 있습니다. 단, Hook은 클래스형 컴포넌트에서는 사용할 수 없음을 유의하세요.
+
+<br>
+
+### static contextType 사용하기
+> 클래스형 컴포넌트에서 Context를 편하게 사용할 수 있습니다.
+
+- SelectColor.js
+  ```js
+  import React, { Component } from 'react'
+  import ColorContext from '../contexts/color';
+
+  const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+  export class SelectColors2 extends Component {
+    static contextType = ColorContext;
+
+    handleSetcolor = color => {
+      this.context.actions.setColor(color);
+    }
+
+    render() {
+      return (
+        <div>
+          <h2>색상을 선택하세요.</h2>
+          <div style={{ display: 'flex' }}>
+            {colors.map(color => (
+              <div
+                key={color}
+                style={{
+                  background: color,
+                  width: '24px',
+                  height: '24px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => this.handleSetcolor(color)}
+                // 오른쪽 클릭 이벤트
+                onContextMenu={event => {
+                  event.preventDefault();
+                  this.handleSetcolor(color);
+                }}
+              />
+            ))}
+          </div>
+          <hr />
+        </div>
+      )
+    }
+  }
+
+  export default SelectColors2
+  ```
+
+static contextType을 정의하면 클래스 메서드에서도 Context에 정의한 함수를 호출할 수 있지만 한 클래스에 하나의 Context밖에 사용하지 못합니다.
