@@ -413,3 +413,9 @@ watch.next({ type: 'HELLO'});
         composeWithDevTools(applyMiddleware(logger, ReduxThunk, sagaMiddleware)),
       );
       ```
+
+<br>
+
+간단히 정리하자면 redux-thunk는 일반 함수로 이루어져 있어 간단명료하며, redux-saga는 복잡한 상황에서 효율적으로 작업을 관리할 수 있습니다.
+
+그 외에 redux-promise-middleware, redux-pender, redux-observable 등 다른 미들웨어를 써보는 것도 좋습니다. 혹은 미들웨어 없이 컴포넌트 단에서 API를 요청하는 것도 좋습니다.
