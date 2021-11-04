@@ -132,3 +132,20 @@ const TodoList = ({ todos, onRemove, onToggle }) => {
 
 export default React.memo(TodoList);
 ```
+
+# 컴포넌트
+## 프레젠테이셔널 컴포넌트와 컨테이너 컴포넌트
+- 프레젠테이셔널 컴포넌트 : 상태 관리가 이루어지지 않고 props를 받아 화면에 UI만을 담당하는 컴포넌트
+- 컨테이너 컴포넌트 : 리덕스로부터 상태를 받아 리덕스 스토어에 액션을 디스패치하는 리덕스와 연동된 컴포넌트
+
+이러한 패턴을 사용하면 코드의 재사용성이 높아지며 관심사의 분리가 이루어져 UI를 작성할 때 좀 더 집중할 수 있다.
+
+<br>
+
+<div align='center'>
+
+<img src='./images/presentational_container_component.jpg' width='600'/>
+
+</div>
+
+<br>
